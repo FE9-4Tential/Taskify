@@ -1,5 +1,5 @@
 ---
-name: Feat
+name: "✨Feat"
 about: 기능 구현
 title: ''
 labels: feature
