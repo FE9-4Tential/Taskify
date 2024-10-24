@@ -5,6 +5,7 @@ import FaEye from "../../public/icons/FaEye.svg";
 import FaEyeSlash from "../../public/icons/FaEyeSlash.svg";
 import largeLogo from "../../public/logo/largeLogo.svg";
 import Image from "next/image";
+import { signUp } from "@/libs/api/Users";
 
 const Signup = () => {
   const router = useRouter();
@@ -100,8 +101,26 @@ const Signup = () => {
     );
   };
 
-  const handleSubmit = () => {
-    // 회원가입 처리 로직
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const registerData = {
+      nickname: values.nickname,
+      email: values.email,
+      password: values.password,
+    };
+    try {
+      const response = await signUp(registerData);
+
+      if (response.status === 201) {
+        alert("회원가입이 성공적으로 완료되었습니다.");
+        router.push("/login");
+      } else {
+        alert(response.error || "회원가입에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      console.error("회원가입 중 오류 발생:", error);
+      alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -112,7 +131,7 @@ const Signup = () => {
         </button>
         <p className="text- black-200 text-[20px]">첫 방문을 환영합니다!</p>
       </div>
-      <form className="flex flex-col gap-6">
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col">
             <label>닉네임</label>
@@ -221,7 +240,7 @@ const Signup = () => {
             </label>
           </div>
         </div>
-        <button className="" onClick={handleSubmit} disabled={!isFormValid()}>
+        <button className="" type="submit" disabled={!isFormValid()}>
           가입하기
         </button>
       </form>
