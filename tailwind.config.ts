@@ -29,6 +29,8 @@ const config: Config = {
         orange: "#ffa500",
         blue: "#76a5ea",
         pink: "#e876ea",
+        "mandy-500": "#d25b68",
+        "vanillaIce-200": "#f4d7da"
       },
     },
   },
